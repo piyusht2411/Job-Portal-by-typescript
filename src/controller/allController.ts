@@ -148,7 +148,11 @@ export const register: RequestHandler = async (req, res, next) => {
       return res.status(400).json({ok:false,message:"Add caterogry first"});
     } 
     const EmailinterestedUsers:String[] = existingCaterogry.interestedUsers;
-    sendMail(EmailinterestedUsers, "Job Alert", `Your interest job ${category} has been posted on portal`);
+    if(EmailinterestedUsers.length!=0){
+      sendMail(EmailinterestedUsers, "Job Alert", `Your interest job ${category} has been posted on portal`);
+
+    }
+   
     const user = await User.findById(req.userId);
     if(!user){
       return res.status(404).json({
