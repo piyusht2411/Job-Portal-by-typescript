@@ -207,6 +207,25 @@ export const register: RequestHandler = async (req, res, next) => {
 
    }
 
+   export const AppliedJobUser:RequestHandler = async (req, res) => {
+    const {jobid} = req.body;
+    const myjob = await job.findById(jobid);
+    if(!myjob){
+      return res.status(404).json({
+        message: "Job not found...",
+      }); 
+    } 
+    const appliedUser = myjob.AppliedUser;
+    for(let i=0; i< appliedUser.length; i++){
+      const user = await User.findById(appliedUser[i]);
+    if(!user){
+      continue;
+      }; 
+      res.json({name:user.name, email:user.email})
+    } 
+    
+
+   }
   
 
 
